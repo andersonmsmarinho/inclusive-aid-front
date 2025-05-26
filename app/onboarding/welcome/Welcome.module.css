@@ -1,0 +1,59 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
+  text-align: center;
+  position: relative;
+}
+
+.logoWrapper {
+  margin-bottom: 2.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 400;
+  color: #222;
+  margin-bottom: 0.25rem;
+}
+
+.brand {
+  font-weight: 700;
+  color: #222;
+  display: block;
+  font-size: 2.1rem;
+}
+
+.subtitle {
+  color: #444;
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.button {
+  background: #0019b7;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 2rem;
+  padding: 0.9rem 2.5rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  transition: background 0.2s;
+}
+.button:hover {
+  background: #0029e6;
+}
+
+.version {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 0;
+  right: 0;
+  color: #bdbdbd;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+} 
