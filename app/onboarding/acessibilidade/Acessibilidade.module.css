@@ -84,10 +84,14 @@
 
 .continueButton {
   width: 100%;
+  border: none;
+  outline: none;
   border-radius: 9999px;
   background: #0027B8;
   color: #fff;
   font-size: 1.125rem;
   font-weight: bold;
   padding: 0.75rem 0;
-} 
+  margin-top: 2rem;
+  cursor: pointer;
+}
