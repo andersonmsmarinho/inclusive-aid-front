@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #F5F5F5;
+  background: transparent;
   padding: 2rem 1rem;
 }
 
@@ -17,12 +17,12 @@
 .title {
   font-size: 2rem;
   font-weight: 600;
-  color: #18181B;
+  color: hsl(var(--foreground));
   margin-bottom: 0.5rem;
 }
 
 .subtitle {
-  color: #52525B;
+  color: hsl(var(--muted-foreground));
   margin-bottom: 1.5rem;
 }
 
@@ -43,7 +43,7 @@
   height: 32px;
   display: flex;
   align-items: center;
-  border: 2px solid #000;
+  border: 2px solid hsl(var(--foreground));
   border-radius: 9999px;
   background: transparent;
   padding: 0 4px;
@@ -51,15 +51,15 @@
 }
 
 .switch.active {
-  background: #000;
+  background: hsl(var(--foreground));
 }
 
 .switchKnob {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #fff;
-  border: 2px solid #000;
+  background: hsl(var(--background));
+  border: 2px solid hsl(var(--foreground));
   transition: transform 0.2s;
 }
 
@@ -70,12 +70,13 @@
 .label {
   font-size: 1.125rem;
   font-weight: 600;
+  color: hsl(var(--foreground));
 }
 
 .backButton {
   text-align: center;
   font-size: 1rem;
-  color: #000;
+  color: hsl(var(--foreground));
   margin-bottom: 0.5rem;
   background: none;
   border: none;

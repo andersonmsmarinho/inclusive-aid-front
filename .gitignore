@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# --- app subfolders rules ---
+# Ignore all files inside the navegador feature folder but keep the directory itself
+/app/navegador/*
+!/app/navegador/.gitkeep
+/app/onboarding/*
+!/app/onboarding/.gitkeep

@@ -1,11 +1,13 @@
 import styles from './Welcome.module.css';
 import { Button } from '../../components/Button';
+import { useSpeakOnMount } from '../../hooks/useTTS';
 
 interface WelcomePageProps {
   onContinue: () => void;
 }
 
 export default function WelcomePage({ onContinue }: WelcomePageProps) {
+  useSpeakOnMount('Bem vindo ao InclusiveAID. Pressione o botão começar para iniciar.');
   return (
     <div className={styles.container}>
       <div className={styles.logoWrapper}>

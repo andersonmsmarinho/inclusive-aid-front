@@ -1,9 +1,11 @@
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import { Button } from '../../components/Button';
 import styles from './Necessidades.module.css';
 import Image from 'next/image';
+import { useAccessibility } from '../../context/AccessibilityContext';
+import { useSpeakOnMount } from '../../hooks/useTTS';
+import { playBeep } from '../../lib/sound';
 
 
 const necessidadesList = [
@@ -16,14 +18,21 @@ const necessidadesList = [
 
 
 export default function NecessidadesPage({ onContinue }: { onContinue?: () => void }) {
- const [selecionadas, setSelecionadas] = useState<string[]>([]);
- const router = useRouter();
+ const { needs, setNeeds, features } = useAccessibility();
+ const [selecionadas, setSelecionadas] = useState<string[]>(needs);
 
+ useEffect(() => {
+   setNeeds(selecionadas);
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+ }, [selecionadas]);
+
+ useSpeakOnMount('Selecione suas necessidades. Use Tab para navegar pelos botões e Enter para selecionar.');
 
  function toggleNecessidade(key: string) {
   setSelecionadas((prev) =>
    prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
   );
+  if (features['Ativar feedback sonoro']) playBeep();
  }
 
 
@@ -43,7 +52,7 @@ export default function NecessidadesPage({ onContinue }: { onContinue?: () => vo
         onClick={() => toggleNecessidade(n.key)}
         className={`${styles.optionButton} ${selecionadas.includes(n.key) ? styles.selected : ''}`}
        >
-        <span className={styles.icon}><Image src={`/${n.icon}`} width={24} height={24} alt="Icone"/></span> {n.label}
+        <span className={styles.icon}><Image src={`/${n.icon}`} width={24} height={24} alt={`Ícone representando deficiência ${n.label}`}/></span> {n.label}
        </button>
       ))}
      </div>

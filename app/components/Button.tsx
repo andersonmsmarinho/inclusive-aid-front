@@ -1,13 +1,25 @@
 import { ButtonHTMLAttributes, forwardRef } from 'react'
 import { cn } from '../lib/utils'
+import { useAccessibility } from '../context/AccessibilityContext'
+import { playBeep } from '../lib/sound'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'> {
+  onClick?: React.MouseEventHandler<HTMLButtonElement>
   variant?: 'primary' | 'secondary' | 'outline'
   size?: 'sm' | 'md' | 'lg'
 }
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant = 'primary', size = 'md', ...props }, ref) => {
+  ({ className, variant = 'primary', size = 'md', onClick, ...props }, ref) => {
+    const { features } = useAccessibility();
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (features['Ativar feedback sonoro']) {
+        playBeep(); // default click sound
+      }
+      if (onClick) onClick(e);
+    };
+
     return (
       <button
         className={cn(
@@ -25,6 +37,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className
         )}
         ref={ref}
+        onClick={handleClick}
         {...props}
       />
     )

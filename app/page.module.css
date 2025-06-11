@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background: #f4f4f4;
+  background: var(--background);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -14,14 +14,14 @@
 .title {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #222;
+  color: var(--foreground);
   text-align: center;
 }
 
 .main {
   width: 100%;
   max-width: 400px;
-  background: #fff;
+  background: var(--card);
   border-radius: 1.5rem;
   box-shadow: 0 2px 16px rgba(0,0,0,0.06);
   padding: 2.5rem 1.5rem 2rem 1.5rem;
@@ -33,13 +33,13 @@
 .success {
   font-size: 1.35rem;
   font-weight: 600;
-  color: #222;
+  color: var(--foreground);
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .intro {
-  color: #222;
+  color: var(--foreground);
   font-size: 1.05rem;
   margin-bottom: 2rem;
   text-align: center;
@@ -47,7 +47,7 @@
 
 .brand {
   font-weight: 700;
-  color: #222;
+  color: var(--foreground);
 }
 
 .section {
@@ -57,7 +57,7 @@
 .sectionTitle {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #222;
+  color: var(--foreground);
   margin-bottom: 0.7rem;
 }
 .listsWrapper {
@@ -70,18 +70,18 @@
 }
 .listLabel {
   font-weight: 500;
-  color: #444;
+  color: var(--muted-foreground, var(--foreground));
   font-size: 1rem;
 }
 .list {
   margin: 0.2rem 0 0.5rem 1.2rem;
-  color: #222;
+  color: var(--foreground);
   font-size: 1rem;
   padding-left: 1.2rem;
 }
 .primaryBtn {
-  background: #0019b7;
-  color: #fff;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   font-weight: 700;
   font-size: 1.1rem;
   border-radius: 2rem;
@@ -91,10 +91,10 @@
   transition: background 0.2s;
 }
 .primaryBtn:hover {
-  background: #0029e6;
+  background: hsl(var(--primary) / 0.9);
 }
 .premiumLink {
-  color: #0019b7;
+  color: hsl(var(--primary));
   font-weight: 700;
   font-size: 1.05rem;
   margin-bottom: 1.5rem;
@@ -104,7 +104,7 @@
   transition: color 0.2s;
 }
 .premiumLink:hover {
-  color: #0029e6;
+  color: hsl(var(--primary) / 0.9);
 }
 .actions {
   width: 100%;
@@ -114,8 +114,8 @@
   margin-top: 0.5rem;
 }
 .secondaryBtn {
-  background: #ededed;
-  color: #222;
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
   font-weight: 700;
   font-size: 1.05rem;
   border-radius: 2rem;
@@ -126,5 +126,5 @@
   transition: background 0.2s;
 }
 .secondaryBtn:hover {
-  background: #e0e0e0;
+  background: hsl(var(--secondary) / 0.9);
 } 

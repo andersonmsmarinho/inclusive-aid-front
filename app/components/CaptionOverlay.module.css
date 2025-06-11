@@ -1,0 +1,12 @@
+.overlay {
+  position: fixed;
+  inset-x: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 1.5rem 2rem;
+  font-size: 1.5rem;
+  z-index: 10000;
+  pointer-events: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+} 
