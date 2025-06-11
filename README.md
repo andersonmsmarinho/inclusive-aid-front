@@ -183,7 +183,3 @@ As configurações são serializadas em `localStorage` sob a chave `inclusive_ai
 2. **Internacionalização**: mover strings para arquivo JSON e parametrizar `SpeechSynthesisUtterance.lang`.
 3. **Testes**: usar Jest + React Testing Library. Para acessibilidade utilize `axe-core` e Lighthouse.
 4. **Performance**: modules pesados devem ser *lazy-loaded* via `next/dynamic`.
-
----
-
-> Conteúdo completo das fontes originais permanece disponível em `docs/TECHNICAL.md` e `docs/FUNCTIONALIDADES.md`.
