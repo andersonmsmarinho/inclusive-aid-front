@@ -128,3 +128,29 @@
 .secondaryBtn:hover {
   background: hsl(var(--secondary) / 0.9);
 } 
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.toolbar {
+  padding: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  background: var(--card);
+}
+.addressInput {
+  flex: 1;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: var(--background);
+  color: var(--foreground);
+}
+.iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+}
