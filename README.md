@@ -9,6 +9,7 @@ InclusiveAID é uma aplicação web "by-default" acessível pensada para pessoas
 3. [Fluxo de Onboarding](#fluxo-de-onboarding)
 4. [Gerenciamento de Acessibilidade](#gerenciamento-de-acessibilidade)
 5. [Testes automatizados](#testes-automatizados)
+6. [Integração com Back4App (Parse)](#integração-com-back4app-parse)
 
 ---
 
@@ -108,6 +109,7 @@ Siga sempre as diretrizes de código limpo, SOLID e WCAG 2.1.
 4. Funcionalidades detalhadas
 5. Persistência de Preferências
 6. Diretrizes de Extensão & Testes
+7. Integração com Back4App (Parse)
 
 ### 1. Visão Geral & Arquitetura
 Inclui-se aqui um resumo da estrutura de diretórios, stack tecnológica e objetivos do projeto (detalhados originalmente em `TECHNICAL.md`). Para o diagrama completo de pastas consulte a árvore abaixo:
@@ -183,3 +185,56 @@ As configurações são serializadas em `localStorage` sob a chave `inclusive_ai
 2. **Internacionalização**: mover strings para arquivo JSON e parametrizar `SpeechSynthesisUtterance.lang`.
 3. **Testes**: usar Jest + React Testing Library. Para acessibilidade utilize `axe-core` e Lighthouse.
 4. **Performance**: modules pesados devem ser *lazy-loaded* via `next/dynamic`.
+
+### 7. Integração com Back4App (Parse)
+
+A partir da versão **0.2.0** as preferências de acessibilidade são sincronizadas com um
+**banco de dados hospedado no Back4App**. Foi criado um *CRUD* completo para a
+entidade `AccessibilityProfile`.
+
+#### 7.1 Configuração de variáveis de ambiente
+Crie um arquivo `.env.local` na raiz do projeto com as seguintes chaves (obtidas
+no painel do Back4App → *Dashboard* → *App Settings* → *Security & Keys*):
+
+```
+PARSE_APP_ID=xxxxxxxxxxxxxxxxxxxxxxxxx
+PARSE_JS_KEY=xxxxxxxxxxxxxxxxxxxxxxxxx
+PARSE_SERVER_URL=https://parseapi.back4app.com/
+```
+
+> **Importante:** mantenha estas chaves em sigilo. Elas **não** são enviadas ao
+> cliente por não possuírem o prefixo `NEXT_PUBLIC_`.
+
+#### 7.2 API interna
+Os endpoints abaixo foram adicionados em `app/api/profiles/*` e abstraem o
+Parse SDK.
+
+| Método | Rota                 | Descrição                       |
+|--------|----------------------|---------------------------------|
+| GET    | `/api/profiles`      | Lista todos os perfis           |
+| POST   | `/api/profiles`      | Cria novo perfil                |
+| GET    | `/api/profiles/:id`  | Obtém perfil por `id`           |
+| PUT    | `/api/profiles/:id`  | Atualiza perfil por `id`        |
+| DELETE | `/api/profiles/:id`  | Remove perfil                   |
+
+A camada de frontend usa esses endpoints de forma transparente via
+`AccessibilityContext`, garantindo sincronização em tempo-real (com *debounce*
+em nível de `useEffect`). O `objectId` retornado pelo Parse é salvo em
+`localStorage` (`inclusive_aid_profile_id`) para futuras atualizações (PUT).
+
+#### 7.3 Modelo no Back4App
+Crie a classe `AccessibilityProfile` com os seguintes *columns*:
+
+| Nome     | Tipo      | Descrição                             |
+|----------|-----------|---------------------------------------|
+| needs    | Array     | Lista de necessidades do usuário      |
+| features | Object    | Mapa chave/valor de recursos ativos   |
+
+Nenhum trigger adicional é requerido, mas recomenda-se habilitar **Class-level
+Permissions** para que apenas a Cloud Code (Master Key) possa escrever.
+
+#### 7.4 Próximos passos sugeridos
+1. **Auth** – vincular perfil a um usuário Parse (`_User`) para multi-device.
+2. **Versionamento** – manter histórico de mudanças (classe `ProfileHistory`).
+3. **Testes** – mockar Parse SDK em Jest e cobrir fluxo de persistência.
+4. **Webhooks** – emitir eventos para integração com outros serviços (ex: Braille displays).

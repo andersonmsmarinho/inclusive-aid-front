@@ -20,8 +20,6 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className={inter.className}>
-        {/* Link de atalho para navegação via teclado */}
-        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 bg-white text-black p-2 z-50">Pular para conteúdo principal</a>
         <AccessibilityProvider>
           <main id="main-content" className="min-h-screen bg-background">
             {children}

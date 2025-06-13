@@ -55,6 +55,65 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [needs, features]);
 
+  // Persiste alterações no backend (Back4App) via API interna
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const controller = new AbortController();
+
+    // Debounce para evitar múltiplas requisições rápidas
+    const timer = setTimeout(async () => {
+      if (!navigator.onLine) {
+        console.warn('[AccessibilityContext] Offline – adiando sync');
+        return;
+      }
+
+      const storedId = localStorage.getItem('inclusive_aid_profile_id');
+      let idToUse = storedId || undefined;
+
+      async function push(method: 'POST' | 'PUT', url: string) {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ needs, features }),
+          signal: controller.signal,
+        });
+        return res;
+      }
+
+      try {
+        let res: Response;
+        if (idToUse) {
+          // tenta atualizar
+          res = await push('PUT', `/api/profiles/${idToUse}`);
+          if (res.status === 404) {
+            // perfil removido — recria
+            localStorage.removeItem('inclusive_aid_profile_id');
+            idToUse = undefined;
+          } else if (!res.ok) {
+            throw new Error(`HTTP ${res.status}`);
+          }
+        }
+
+        if (!idToUse) {
+          res = await push('POST', '/api/profiles');
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          if (data?.id) localStorage.setItem('inclusive_aid_profile_id', data.id);
+        }
+      } catch (err: any) {
+        if (err.name !== 'AbortError') {
+          console.error('[AccessibilityContext] Sync error', err);
+        }
+      }
+    }, 500); // 500 ms debounce
+
+    return () => {
+      controller.abort();
+      clearTimeout(timer);
+    };
+  }, [needs, features]);
+
   // Detecta ativação da narração e envia mensagem introdutória
   useEffect(() => {
     const key = 'Ativar narração';

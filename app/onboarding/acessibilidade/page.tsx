@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '../../components/Button';
-import styles from './Acessibilidade.module.css';
+import styles from './page.module.css';
 import { useAccessibility } from '../../context/AccessibilityContext';
 import { useSpeakOnMount } from '../../hooks/useTTS';
 import { speak } from '../../lib/tts';

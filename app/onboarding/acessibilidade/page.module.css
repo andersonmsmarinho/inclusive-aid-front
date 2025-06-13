@@ -1,4 +1,5 @@
-.recipiente {
+/* Container principal */
+.container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -7,26 +8,26 @@
   padding: 2rem 1rem;
 }
 
-.cabecalho {
+.header {
   text-align: center;
   font-size: 1.25rem;
   font-weight: bold;
   margin-bottom: 2rem;
 }
 
-.titulo {
+.title {
   font-size: 2rem;
   font-weight: 600;
   color: hsl(var(--foreground));
   margin-bottom: 0.5rem;
 }
 
-.subtitulo {
+.subtitle {
   color: hsl(var(--muted-foreground));
   margin-bottom: 1.5rem;
 }
 
-.opcoes {
+.options {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -50,7 +51,7 @@
   transition: background 0.2s;
 }
 
-.switch.ativo {
+.switch.active {
   background: hsl(var(--foreground));
 }
 
@@ -63,17 +64,21 @@
   transition: transform 0.2s;
 }
 
-.switch.ativo .switchKnob {
+.switch.active .switchKnob {
   transform: translateX(24px);
 }
 
-.rotulo {
+.switchKnob.active {
+  transform: translateX(24px);
+}
+
+.label {
   font-size: 1.125rem;
   font-weight: 600;
   color: hsl(var(--foreground));
 }
 
-.botaoVoltar {
+.backButton {
   text-align: center;
   font-size: 1rem;
   color: hsl(var(--foreground));

@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
 @layer base {
 :root {
     --background: 0 0% 100%;
@@ -74,7 +72,7 @@
     /* fallback for elementos com cores fixas */
     color-scheme: dark;
     background-color: hsl(0 0% 0%) !important;
-    color: hsl(0 0% 100%) !important;
+    color: #f4f4f4 !important;
   }
 }
 
