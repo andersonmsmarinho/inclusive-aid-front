@@ -45,7 +45,7 @@ function FeaturesList() {
 }
 
 export default function Home() {
-  const { needs, features } = useAccessibility();
+  const { needs, features, setNeeds, setFeature } = useAccessibility();
   const router = useRouter();
 
   useEffect(() => {
@@ -72,6 +72,33 @@ export default function Home() {
     speak(summary);
 
   }, [needs, features]);
+
+  // Função para revogar permissões
+  const handleRevoke = async () => {
+    try {
+      if (typeof window !== 'undefined') {
+        const profileId = localStorage.getItem('inclusive_aid_profile_id');
+        if (profileId) {
+          try {
+            await fetch(`/api/profiles/${profileId}`, { method: 'DELETE' });
+          } catch (err) {
+            console.error('[Home] Falha ao remover perfil remoto', err);
+          }
+          localStorage.removeItem('inclusive_aid_profile_id');
+        }
+        localStorage.removeItem('inclusive_aid_accessibility');
+      }
+
+      // Limpa estado no contexto
+      setNeeds([]);
+      Object.keys(features).forEach((key) => setFeature(key, false));
+
+      // Redireciona para o onboarding
+      router.push('/onboarding');
+    } catch (err) {
+      console.error('[Home] Erro ao revogar permissões', err);
+    }
+  };
 
   if (needs.length === 0) {
     // Evita renderizar conteúdo enquanto redireciona
@@ -109,7 +136,7 @@ export default function Home() {
         <Button className={styles.primaryBtn} onClick={() => router.push('/navegador')}>Usar o InclusiveAID</Button>
         <a className={styles.premiumLink} href="#">Assine o AID Premium</a>
         <div className={styles.actions}>
-          <Button className={styles.secondaryBtn} variant="secondary">Revogar permissões</Button>
+          <Button className={styles.secondaryBtn} variant="secondary" onClick={handleRevoke}>Revogar permissões</Button>
           <Button className={styles.secondaryBtn} variant="secondary" onClick={() => router.push('/onboarding/acessibilidade')}>Configurações</Button>
         </div>
       </main>

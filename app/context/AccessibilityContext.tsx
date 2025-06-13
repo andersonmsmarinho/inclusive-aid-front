@@ -1,8 +1,6 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { speak } from '../lib/tts';
-import { useAppDispatch } from '../../store/store';
-import { setNeeds as setNeedsRedux, setFeature as setFeatureRedux, toggleFeature as toggleFeatureRedux, savePreferences } from '../../store/accessibilitySlice';
 
 interface AccessibilityState {
   needs: string[];
@@ -25,7 +23,6 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
   const [needs, setNeedsState] = useState<string[]>([]);
   const [features, setFeatures] = useState<Record<string, boolean>>({ 'Ativar narração': true });
   const prevFeatures = useRef<Record<string, boolean>>({});
-  const dispatch = useAppDispatch();
 
   // Carrega preferências previamente salvas (localStorage)
   useEffect(() => {
@@ -142,7 +139,6 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const setNeeds = (n: string[]) => {
     setNeedsState(n);
-    dispatch(setNeedsRedux(n));
   };
 
   const setFeature = (key: string, enabled: boolean) => {
@@ -150,21 +146,16 @@ export const AccessibilityProvider: React.FC<{ children: React.ReactNode }> = ({
       ...prev,
       [key]: enabled,
     }));
-    dispatch(setFeatureRedux({ key, enabled }));
   };
 
   const toggleFeature = (key: string) => {
-    setFeatures((prev) => {
-      const updated = { ...prev, [key]: !prev[key] };
-      dispatch(toggleFeatureRedux(key));
-      return updated;
-    });
+    setFeatures((prev) => ({
+      ...prev,
+      [key]: !prev[key],
+    }));
   };
 
-  // Persist to Parse whenever needs or features change
-  useEffect(() => {
-    dispatch(savePreferences({ needs, features }));
-  }, [needs, features, dispatch]);
+  // Persistência agora ocorrendo apenas via efeitos locais acima.
 
   const value = React.useMemo<AccessibilityState>(
     () => ({ needs, features, setNeeds, toggleFeature, setFeature }),

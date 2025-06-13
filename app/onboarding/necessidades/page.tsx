@@ -26,6 +26,26 @@ export default function NecessidadesPage({ onContinue }: { onContinue?: () => vo
    // eslint-disable-next-line react-hooks/exhaustive-deps
  }, [selecionadas]);
 
+ useEffect(() => {
+   // Carrega necessidades a partir do backend se existir profile_id
+   (async () => {
+     if (typeof window === 'undefined') return;
+     const id = localStorage.getItem('inclusive_aid_profile_id');
+     if (!id) return;
+     try {
+       const res = await fetch(`/api/profiles/${id}`);
+       if (res.ok) {
+         const data = await res.json();
+         if (Array.isArray(data?.needs)) {
+           setSelecionadas(data.needs);
+         }
+       }
+     } catch (err) {
+       console.error('[NecessidadesPage] Falha ao buscar necessidades remotas', err);
+     }
+   })();
+ }, []);
+
  useSpeakOnMount('Selecione suas necessidades. Use Tab para navegar pelos botões e Enter para selecionar.');
 
  function toggleNecessidade(key: string) {
