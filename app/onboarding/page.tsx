@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import NecessidadesPage from './necessidades/page';
 import AcessibilidadePage from './acessibilidade/page';
-import WelcomePage from './welcome/page';
+import WelcomeClient from './welcome/WelcomeClient';
 import { useAccessibility } from '../context/AccessibilityContext';
 import { speak } from '../lib/tts';
 
@@ -23,7 +23,7 @@ export default function Onboarding() {
 
   return (
     <>
-      {step === 0 && <WelcomePage onContinue={() => setStep(1)} />}
+      {step === 0 && <WelcomeClient onContinue={() => setStep(1)} />}
       {step === 1 && <NecessidadesPage onContinue={() => setStep(2)} />}
       {step === 2 && <AcessibilidadePage onBack={() => setStep(1)} />}
     </>

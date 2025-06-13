@@ -1,15 +1,17 @@
-'use client';
+"use client";
+
 import styles from './Welcome.module.css';
 import { Button } from '../../components/Button';
 import { useSpeakOnMount } from '../../hooks/useTTS';
 import Image from 'next/image';
 
-interface WelcomePageProps {
+interface WelcomeClientProps {
   onContinue: () => void;
 }
 
-export default function WelcomePage({ onContinue }: WelcomePageProps) {
+export default function WelcomeClient({ onContinue }: WelcomeClientProps) {
   useSpeakOnMount('Bem vindo ao InclusiveAID. Pressione o botão começar para iniciar.');
+
   return (
     <div className={styles.container}>
       <div className={styles.logoWrapper}>
